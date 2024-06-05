@@ -35,7 +35,7 @@ public class EstudianteDAL {
     public static int modificar(Estudiante estudiante) throws SQLException{
         int result = 0;
         try {
-            String sql = "UPDATE Estudiantes SET Codigo = ?,  Nombre = ?, Apellido = ?, Carrera = ? WHERE Id = ?)";
+            String sql = "UPDATE Estudiantes SET Codigo = ?,  Nombre = ?, Apellido = ?, Carrera = ? WHERE Id = ?";
             Connection conexion = ComunDB.obtenerConexion();
             PreparedStatement ps = ComunDB.crearPreparedStatement(conexion, sql);
             ps.setString(1, estudiante.getCodigo());
@@ -57,7 +57,7 @@ public class EstudianteDAL {
     public static int eliminar(Estudiante estudiante) throws SQLException{
         int result = 0;
         try {
-            String sql = "DELETE FROM Estudiantes WHERE Id = ?)";
+            String sql = "DELETE FROM Estudiantes WHERE Id = ?";
             Connection conexion = ComunDB.obtenerConexion();
             PreparedStatement ps = ComunDB.crearPreparedStatement(conexion, sql);
             ps.setInt(1, estudiante.getId());
@@ -104,8 +104,6 @@ public class EstudianteDAL {
             Connection connection = ComunDB.obtenerConexion();
             PreparedStatement ps = ComunDB.crearPreparedStatement(connection, sql);
             ps.setInt(1, estudiante.getId());
-            ps.setString(2, estudiante.getApellido());
-            ps.setString(3, estudiante.getCarrera());
             ResultSet rs = ComunDB.obtenerResultSet(ps);
             while (rs.next()){
                 est = new Estudiante(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
