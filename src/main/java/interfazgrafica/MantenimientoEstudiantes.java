@@ -135,6 +135,61 @@ public class MantenimientoEstudiantes extends JFrame {
                 btnCancelar.setEnabled(true);
             }
         });
+        btnEliminar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                student = new Estudiante();
+                student.setId(Integer.parseInt(txtId.getText()));
+                try{
+                    estudianteBL.eliminar(student);
+                    JOptionPane.showMessageDialog(null, "Se eliminó correctamente");
+                    actualizarForm();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        btnBuscar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if(txtCriterio.getText().equals("") || (!rdbId.isSelected() &&
+                        !rdbApellido.isSelected() && !rdbCarrera.isSelected()) ){
+                    JOptionPane.showMessageDialog(null,
+                            "Seleccione un criterio de búsqueda o escriba el valor a buscar");
+                }
+
+                student = new Estudiante();
+
+                if(rdbId.isSelected()){
+                    student.setId(Integer.parseInt(txtCriterio.getText()));
+                    try{
+                        llenarTabla(estudianteBL.obtenerDatosFiltrados(student));
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+                if(rdbApellido.isSelected()){
+                    student.setApellido(txtCriterio.getText());
+                    try{
+                        llenarTabla(estudianteBL.obtenerDatosFiltrados(student));
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+                if(rdbCarrera.isSelected()){
+                    student.setCarrera(txtCriterio.getText());
+                    try{
+                        llenarTabla(estudianteBL.obtenerDatosFiltrados(student));
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        });
     }
 
     void inicializar(){
